@@ -2,6 +2,10 @@
 
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 
+> This module is still in early development. The partial names and available options may change in
+future versions. Hopefully there will be few breaking changes, and warnings will be used where
+possible to signal deprecated options.
+
 A module for the [Hugo](https://gohugo.io/) static site generator, which generates correctly
 formatted `<time>` elements. It also supports ordinals for day formatting. Additionally, it
 supports including GitHub's [relative-time-element](https://github.com/github/relative-time-element)
