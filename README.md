@@ -1,0 +1,167 @@
+#	hugo-mod-time
+
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
+A module for the [Hugo](https://gohugo.io/) static site generator, which generates correctly
+formatted `<time>` elements. It also supports ordinals for day formatting. Additionally, it
+supports including GitHub's [relative-time-element](https://github.com/github/relative-time-element)
+package, automatically updating dates and times on the client, according to their location.
+
+##	How to use
+
+To insert a date without a time, use the `date` partial with an appropriate format string:
+
+```gotmpl
+{{ partial "date" (dict "Time" $time "Format" "2 January 2006") }}
+```
+
+To insert a complete datetime, use the `time` partial:
+
+```gotmpl
+{{ partial "time" (dict "Time" $time "Format" "2 January 2006 3:04 PM MST") }}
+```
+
+Both partials take a dictionary as the 'context' (the single argument), which requires the
+following properties:
+
+<dl>
+<dt><strong>Time</strong></dt>
+<dd>
+A <a href="https://godoc.org/time#Time">time.Time</a> struct. Page variables such as
+<code>.PublishDate</code> and <code>.Lastmod</code> can be passed straight into this argument;
+timestamps can be converted to objects using the <code>time</code> function.
+</dd>
+
+<dt><strong>Format</strong></dt>
+<dd>
+A <a href="https://gohugo.io/functions/format/#gos-layout-string">Go Layout String</a> as used by
+the <code>time.Format</code> function to render a datetime.
+</dd>
+
+<dt><strong>Options</strong></dt>
+<dd>
+A dictionary containing key-value pairs corresponding to the <a href="https://github.com/github/relative-time-element#attributes">attributes for the relative-time element</a>
+</dd>
+</dl>
+
+The `time` partial above will produce the folllowing HTML:
+
+```html
+<time datetime="2023-01-30T00:00:00+1100">30 January 2023 12:00 AM AEDT</time>
+```
+
+###	Using ordinals in dates
+
+With the `date` and `time` partials, you can also use an ordinal in the layout string to signify
+you would like dates to be formatted as such:
+
+```gotmpl
+{{ partial "date" (dict "Time" $time "Format" "January 2nd 2006") }}
+```
+
+This case is specially handled to produce the following HTML:
+
+```html
+<time datetime="2023-01-30">January 30th 2023</time>
+```
+
+##	Enabling client-side time conversion
+
+Client-side time conversion is not enabled by default, as it requires including
+[relative-time-element](https://github.com/github/relative-time-element) as an additional
+dependency. To enable it, you need to set `params.time.enableRelative` in your config to `true`.
+
+-	config.toml:
+
+	```toml
+	[params.time]
+	enableRelative = true
+	```
+
+-	config.yaml:
+
+	```yaml
+	params:
+	  time:
+	    enableRelative: true
+	```
+
+You will also need to include the JavaScript files required to enable the custom elements used.
+The simple option is to just include the `time/script-import` partial in your `<head>`
+
+```html
+<head>
+	<!-- omitted -->
+	{{ partialCached "time/script-import" . }}
+</head>
+```
+
+Alternatively, you can import `/assets/relative-time-element/index.ts` into your own bundle.
+
+After enabling relative time conversion, the generated HTML will look like this:
+
+```html
+<time datetime="2023-01-30T00:00:00+1100">
+	<relative-time datetime="2023-01-30T00:00:00+1100"
+		month="long" day="numeric" year="numeric"
+		hour="numeric" minute="2-digit" timezonename="short">
+		30 January 2023 12:00 AM AEDT
+	</relative-time>
+</time>
+```
+
+The template will use the provided layout string to automatically configure the `relative-time`
+element so it will match as close as possible to the date format produced by Hugo.
+
+### Additional options
+
+You may pass in options to change the appearance of the `relative-time` element, by passing in an
+options dictionary. You can configure the element using
+[any available attribute](https://github.com/github/relative-time-element#attributes).
+
+```gotmpl
+{{ $timeOptions := dict "format" "relative" "precision" "day" "threshold" "P7D" }}
+
+{{ partial "time" (dict "Time" $time "Format" "2 January 2006 3:04 PM MST" "Options" $timeOptions) }}
+```
+
+A default configuration can be provided by setting `params.time.defaultOptions` in your site config:
+
+-	config.toml:
+
+	```toml
+	[params.time]
+	enableRelative = true
+
+	[params.time.defaultOptions]
+	format = "relative"
+	precision = "day"
+	threshold = "P7D"
+	```
+
+-	config.yaml:
+
+	```yaml
+	params:
+	  time:
+	    enableRelative: true
+	    defaultOptions:
+	      format: "relative"
+	      precision: "day"
+	      threshold: "P7D"
+	```
+
+## Licensing and contributions
+
+This module is licensed under the University of Illinois/NCSA license, which can be read in
+[LICENSE.txt](./LICENSE.txt). It is legally identical to the 3-clause "Modified" BSD License, and
+contains an extra clause (Clause 3) compared to the MIT license.
+
+By default, using this module will download the `relative-time-element` package to your computer,
+which is created by GitHub, Inc. and licensed under the
+[MIT license](https://github.com/github/relative-time-element/blob/main/LICENSE).
+If you don't set the `enableRelative` option, the package will not be distributed to people who view
+your web site.
+
+Contributions to this module are welcome! To contribute, please feel free to create an issue or a
+pull request in this repository.

@@ -1,0 +1,12 @@
+{{ if site.Params.Time.EnableRelative }}
+	{{ $timeJS := resources.Get "/relative-time-element/index.ts" | js.Build (dict "minify" hugo.IsProduction "target" "es2020" "format" "esm") }}
+	{{ if hugo.IsProduction }}
+		{{ with ($timeJS | fingerprint) }}
+			<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+		{{ end }}
+	{{ else }}
+		<script type="module" src="{{ $timeJS.RelPermalink }}"></script>
+	{{ end }}
+{{ else }}
+	<!-- Relative time disabled -->
+{{ end }}

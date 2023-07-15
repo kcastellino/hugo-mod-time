@@ -1,0 +1,23 @@
+module:
+  hugoVersion:
+    extended: false
+    min: "0.82.0"
+
+  mounts:
+    - source: "layouts"
+      target: "layouts"
+    - source: "config"
+      target: "config"
+
+  imports:
+    ignoreConfig: true
+    path: "github.com/github/relative-time-element"
+    mounts:
+      - source: "src"
+        target: "assets/relative-time-element"
+
+params:
+  time:
+    enableRelative: false
+    defaultOptions:
+      format: "relative"

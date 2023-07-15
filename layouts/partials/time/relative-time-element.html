@@ -1,0 +1,74 @@
+{{ $options := site.Params.Time.defaultOptions }}
+{{ if .Options }}
+	{{ $options = merge $options .Options }}
+{{ end -}}
+
+<relative-time
+	datetime='{{ .Time.Format "2006-01-02T15:04:05-0700" | safeHTMLAttr }}'
+	{{- if (strings.Contains .Format ":date_full") }}
+	weekday="long" month="long" day="numeric" year="numeric"
+	{{- else if (strings.Contains .Format ":date_long") }}
+	month="long" day="numeric" year="numeric"
+	{{- else if (strings.Contains .Format ":date_medium") }}
+	month="short" day="numeric" year="numeric"
+	{{- else if (strings.Contains .Format ":date_short") }}
+	month="numeric" day="numeric" year="2-digit"
+	{{- else }}
+		{{- if (strings.Contains .Format "Monday") }}
+		weekday="long"
+		{{- else if (strings.Contains .Format "Mon") }}
+		weekday="short"
+		{{- end -}}
+		{{ if (strings.Contains .Format "02") }}
+		day="2-digit"
+		{{- else if (strings.Contains .Format "2") }}
+		day="numeric"
+		{{- end -}}
+		{{ if (strings.Contains .Format "January") }}
+		month="long"
+		{{- else if (strings.Contains .Format "Jan") }}
+		month="short"
+		{{- else if (strings.Contains .Format "01") }}
+		month="2-digit"
+		{{- else }}
+		month="numeric"
+		{{- end -}}
+		{{ if (strings.Contains .Format "2006") }}
+		year="numeric"
+		{{- else if (strings.Contains .Format "06") }}
+		year="2-digit"
+		{{- end -}}
+	{{- end -}}
+
+	{{- if or (strings.Contains .Format ":time_full") (strings.Contains .Format ":time_long") }}
+	hour="numeric" minute="2-digit" second="2-digit" timeZoneName="short"
+	{{- else if (strings.Contains .Format ":time_medium") }}
+	hour="numeric" minute="2-digit" second="2-digit"
+	{{- else if (strings.Contains .Format ":time_short") }}
+	hour="numeric" minute="2-digit"
+	{{- else }}
+		{{- if or (strings.Contains .Format "03") (strings.Contains .Format "15") }}
+		hour="2-digit"
+		{{- else }}
+		hour="numeric"
+		{{- end -}}
+		{{ if (strings.Contains .Format "04") }}
+		minute="2-digit"
+		{{- else if (strings.Contains .Format "4") }}
+		minute="numeric"
+		{{- end -}}
+		{{ if (strings.Contains .Format "MST") }}
+		timeZoneName="short"
+		{{- else if (strings.Contains .Format "-07") }}
+		minute="longOffset"
+		{{- else if (strings.Contains .Format "7") }}
+		minute="shortOffset"
+		{{- end -}}
+	{{- end -}}
+
+	{{- range $option, $value := $options }}
+		{{ $option | safeHTML }}="{{ $value | safeHTMLAttr }}"
+	{{- end -}}
+>
+  {{- partial "time/date-text-formatter" . -}}
+</relative-time>

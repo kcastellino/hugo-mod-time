@@ -1,0 +1,10 @@
+{{ $humanizeToken := "2nd" }}{{/* Value to look for in a time format string */}}
+{{ $output := "" }}
+{{ if (strings.Contains .Format $humanizeToken) }}
+	{{ $format := split .Format $humanizeToken }}
+	{{ $formatted := apply $format "time.Format" "." .Time }}
+	{{ $output = .Time.Day | humanize | delimit $formatted }}
+{{ else }}
+	{{ $output = .Time.Format .Format }}
+{{ end }}
+{{- return $output -}}
