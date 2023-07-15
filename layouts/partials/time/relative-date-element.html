@@ -1,5 +1,5 @@
-{{ $options := site.Params.Time.defaultOptions }}
-{{ if .Options }}
+{{ $options := site.Params.Time.defaultOptions -}}
+{{ if .Options -}}
 	{{ $options = merge $options .Options }}
 {{ end -}}
 
