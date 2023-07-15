@@ -19,5 +19,4 @@ module:
 params:
   time:
     enableRelative: false
-    defaultOptions:
-      format: "relative"
+    defaultOptions: {}
