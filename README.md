@@ -48,7 +48,7 @@ A dictionary containing key-value pairs corresponding to the <a href="https://gi
 </dd>
 </dl>
 
-The `time` partial above will produce the folllowing HTML:
+The `time` partial above will produce the following HTML:
 
 ```html
 <time datetime="2023-01-30T00:00:00+1100">30 January 2023 12:00 AM AEDT</time>
