@@ -1,3 +1,7 @@
+{{ if not (isset . "Time") }}
+	{{ errorf "No time passed" }}
+{{ end -}}
+
 <time datetime='{{ .Time.Format "2006-01-02" | safeHTMLAttr }}'>
 	{{- if site.Params.Time.EnableRelative }}
 		{{- partial "time/relative-date-element" . -}}

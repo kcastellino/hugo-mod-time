@@ -1,0 +1,6 @@
+{
+	"MD010": false,
+	"MD033": {
+		"allowed_elements": ["dl", "dt", "dd", "strong", "a", "code"]
+	}
+}

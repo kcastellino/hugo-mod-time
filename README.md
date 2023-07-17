@@ -8,8 +8,52 @@ possible to signal deprecated options.
 
 A module for the [Hugo](https://gohugo.io/) static site generator, which generates correctly
 formatted `<time>` elements. It also supports ordinals for day formatting. Additionally, it
-supports including GitHub's [relative-time-element](https://github.com/github/relative-time-element)
-package, automatically updating dates and times on the client, according to their location.
+supports including GitHub's [relative-time-element] package, automatically updating dates and times
+on the client, according to their location.
+
+[relative-time-element]: https://github.com/github/relative-time-element
+
+## Installation
+
+Add hugo-mod-time to your Hugo project configuration
+
+-	config.toml
+
+	```toml
+	[module]
+	[[module.imports]]
+	path = 'github.com/kcastellino/hugo-mod-time'
+	```
+
+-	config.yaml
+
+	```yaml
+	module:
+	imports:
+	- path: github.com/kcastellino/hugo-mod-time
+	```
+
+If you are not using the [client-side time conversion](#enabling-client-side-time-conversion)
+option, and you don't want to import the third-party module for that feature, set `ignoreImports`
+on the module import to `true`:
+
+-	config.toml
+
+	```toml
+	[module]
+	[[module.imports]]
+	path = 'github.com/kcastellino/hugo-mod-time'
+	ignoreImports = true
+	```
+
+-	config.yaml
+
+	```yaml
+	module:
+	imports:
+	- path: github.com/kcastellino/hugo-mod-time
+	  ignoreImports: true
+	```
 
 ##	How to use
 
@@ -72,8 +116,8 @@ This case is specially handled to produce the following HTML:
 ##	Enabling client-side time conversion
 
 Client-side time conversion is not enabled by default, as it requires including
-[relative-time-element](https://github.com/github/relative-time-element) as an additional
-dependency. To enable it, you need to set `params.time.enableRelative` in your config to `true`.
+[relative-time-element] as an additional dependency. To enable it, you need to set
+`params.time.enableRelative` in your config to `true`.
 
 -	config.toml:
 
@@ -96,9 +140,14 @@ The simple option is to just include the `time/script-import` partial in your `<
 ```html
 <head>
 	<!-- omitted -->
-	{{ partialCached "time/script-import" . }}
+	{{ partialCached "time/script-import" dict }}
 </head>
 ```
+
+> Currently, the "context" provided to the `script-import` partial does nothing, however the next
+version will instead provide an
+[options object to js.Build](https://gohugo.io/hugo-pipes/js/#options). If you do not wish
+to set any options, you can use the `dict` function with no options to pass an empty dictionary.
 
 Alternatively, you can import `/assets/relative-time-element/index.ts` into your own bundle.
 
@@ -158,14 +207,18 @@ A default configuration can be provided by setting `params.time.defaultOptions` 
 ## Licensing and contributions
 
 This module is licensed under the University of Illinois/NCSA license, which can be read in
-[LICENSE.txt](./LICENSE.txt). It is legally identical to the 3-clause "Modified" BSD License, and
+[LICENSE.txt]. It is legally identical to the 3-clause "Modified" BSD License, and
 contains an extra clause (Clause 3) compared to the MIT license.
 
 By default, using this module will download the `relative-time-element` package to your computer,
-which is created by GitHub, Inc. and licensed under the
-[MIT license](https://github.com/github/relative-time-element/blob/main/LICENSE).
-If you don't set the `enableRelative` option, the package will not be distributed to people who view
-your web site.
+which is created by GitHub, Inc. and licensed under the [MIT license][rte-license]. If you don't
+want to download this package, [set `ignoreImports` under your module import to `true`](#installation)
+above. Additionally, the `relative-time-element` will not be used on generated pages, and the
+JavaScript package will not be distributed to clients, unless the
+[`enableRelative` option is set to true](#enabling-client-side-time-conversion).
+
+[LICENSE.txt]: ./LICENSE.txt
+[rte-license]: https://github.com/github/relative-time-element/blob/main/LICENSE
 
 Contributions to this module are welcome! To contribute, please feel free to create an issue or a
 pull request in this repository.
