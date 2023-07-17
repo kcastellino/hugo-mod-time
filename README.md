@@ -1,19 +1,24 @@
 #	hugo-mod-time
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable,
+usable release suitable for the public.][wip-svg]][wip]
+
+[wip-svg]: https://www.repostatus.org/badges/latest/wip.svg
+[wip]: https://www.repostatus.org/#wip
 
 > This module is still in early development. The partial names and available options may change in
 future versions. Hopefully there will be few breaking changes, and warnings will be used where
 possible to signal deprecated options.
 
-A module for the [Hugo](https://gohugo.io/) static site generator, which generates correctly
-formatted `<time>` elements. It also supports ordinals for day formatting. Additionally, it
-supports including GitHub's [relative-time-element] package, automatically updating dates and times
-on the client, according to their location.
+A module for the [Hugo] static site generator, which generates correctly formatted `<time>` elements.
+It also supports ordinals for day formatting. Additionally, it supports including GitHub's
+[relative-time-element] package, automatically updating dates and times on the client, according to
+their location.
 
+[Hugo]: https://gohugo.io/
 [relative-time-element]: https://github.com/github/relative-time-element
 
-## Installation
+##	Installation
 
 Add hugo-mod-time to your Hugo project configuration
 
@@ -33,9 +38,8 @@ Add hugo-mod-time to your Hugo project configuration
 	- path: github.com/kcastellino/hugo-mod-time
 	```
 
-If you are not using the [client-side time conversion](#enabling-client-side-time-conversion)
-option, and you don't want to import the third-party module for that feature, set `ignoreImports`
-on the module import to `true`:
+If you are not using the [client-side time conversion] option, and you don't want to import the
+third-party module for that feature, set `ignoreImports` on the module import to `true`:
 
 -	config.toml
 
@@ -54,6 +58,8 @@ on the module import to `true`:
 	- path: github.com/kcastellino/hugo-mod-time
 	  ignoreImports: true
 	```
+
+[client-side time conversion]: #enabling-client-side-time-conversion
 
 ##	How to use
 
@@ -88,7 +94,9 @@ the <code>time.Format</code> function to render a datetime.
 
 <dt><strong>Options</strong></dt>
 <dd>
-A dictionary containing key-value pairs corresponding to the <a href="https://github.com/github/relative-time-element#attributes">attributes for the relative-time element</a>
+A dictionary containing key-value pairs corresponding to the
+<a href="https://github.com/github/relative-time-element#attributes">attributes for the
+<code>&lt;relative-time&gt;</code> element</a>
 </dd>
 </dl>
 
@@ -145,8 +153,7 @@ The simple option is to just include the `time/script-import` partial in your `<
 ```
 
 > Currently, the "context" provided to the `script-import` partial does nothing, however the next
-version will instead provide an
-[options object to js.Build](https://gohugo.io/hugo-pipes/js/#options). If you do not wish
+version will instead provide an [options object to js.Build][js-build-options]. If you do not wish
 to set any options, you can use the `dict` function with no options to pass an empty dictionary.
 
 Alternatively, you can import `/assets/relative-time-element/index.ts` into your own bundle.
@@ -166,11 +173,12 @@ After enabling relative time conversion, the generated HTML will look like this:
 The template will use the provided layout string to automatically configure the `relative-time`
 element so it will match as close as possible to the date format produced by Hugo.
 
-### Additional options
+[js-build-options]: https://gohugo.io/hugo-pipes/js/#options
+
+###	Additional options
 
 You may pass in options to change the appearance of the `relative-time` element, by passing in an
-options dictionary. You can configure the element using
-[any available attribute](https://github.com/github/relative-time-element#attributes).
+options dictionary. You can configure the element using [any available attribute][relative-time-attrs].
 
 ```gotmpl
 {{ $timeOptions := dict "format" "relative" "precision" "day" "threshold" "P7D" }}
@@ -204,18 +212,20 @@ A default configuration can be provided by setting `params.time.defaultOptions` 
 	      threshold: "P7D"
 	```
 
-## Licensing and contributions
+[relative-time-attrs]: https://github.com/github/relative-time-element#attributes
+
+##	Licensing and contributions
 
 This module is licensed under the University of Illinois/NCSA license, which can be read in
-[LICENSE.txt]. It is legally identical to the 3-clause "Modified" BSD License, and
-contains an extra clause (Clause 3) compared to the MIT license.
+[LICENSE.txt]. It is legally identical to the 3-clause "Modified" BSD License, and contains an extra
+clause (Clause 3) compared to the MIT license.
 
 By default, using this module will download the `relative-time-element` package to your computer,
 which is created by GitHub, Inc. and licensed under the [MIT license][rte-license]. If you don't
-want to download this package, [set `ignoreImports` under your module import to `true`](#installation)
-above. Additionally, the `relative-time-element` will not be used on generated pages, and the
-JavaScript package will not be distributed to clients, unless the
-[`enableRelative` option is set to true](#enabling-client-side-time-conversion).
+want to download this package, [set `ignoreImports` under your module import to `true`](#installation).
+Additionally, the `<relative-time>` element will not be used on generated pages, and the JavaScript
+package will not be distributed to clients, unless the
+[`enableRelative` option is set to true][client-side time conversion].
 
 [LICENSE.txt]: ./LICENSE.txt
 [rte-license]: https://github.com/github/relative-time-element/blob/main/LICENSE

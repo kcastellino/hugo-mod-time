@@ -1,5 +1,9 @@
 {
 	"MD010": false,
+	"MD013": {
+		"code_blocks": false,
+		"line_length": 100
+	},
 	"MD033": {
 		"allowed_elements": ["dl", "dt", "dd", "strong", "a", "code"]
 	}
