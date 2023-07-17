@@ -1,6 +1,7 @@
+{{ $options := dict "target" "es2017" "minify" hugo.IsProduction }}
 {{ if site.Params.Time.EnableRelative }}
 	{{ with resources.Get "/relative-time-element/index.ts" }}
-		{{ $timeJS := . | js.Build (dict "minify" hugo.IsProduction "target" "es2017") }}
+		{{ $timeJS := . | js.Build $options }}
 		{{ if hugo.IsProduction }}
 			{{ with ($timeJS | fingerprint) }}
 				<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
