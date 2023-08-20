@@ -153,23 +153,28 @@ params:
   enableRelative: true
 ----
 
+:js-build-options: https://gohugo.io/hugo-pipes/js/#options
+
 You will also need to include the JavaScript files required to enable the custom elements used.
-The simple option is to just include the `time/script-import` partial in your `<head>`
+The simple option is to just include the `relative-time-element/script-src` partial in your `<head>`,
+along with a dictionary providing {js-build-options}[options to js.Build].
 
 [source,html]
 ----
 <head>
 	<!-- omitted -->
-	{{ partialCached "time/script-import" dict }}
+	{{ partialCached "relative-time-element/script-src" (dict "target" "es2017" "minify" hugo.IsProduction) }}
 </head>
 ----
 
-:js-build-options: https://gohugo.io/hugo-pipes/js/#options
+[TIP]
+If you do not wish to set any options, you can use the `dict` function with no options to pass an
+empty dictionary.
 
-[IMPORTANT]
-Currently, the "context" provided to the `script-import` partial does nothing, however the next
-version will instead provide an {js-build-options}[options object to js.Build]. If you do not wish
-to set any options, you can use the `dict` function with no options to pass an empty dictionary.
+[NOTE]
+Previous versions of this module used a partial at "time/script-import.html" to build and include
+the JavaScript files, which took no options. This partial has been preserved for backwards
+compatibility.
 
 Alternatively, you can import `/assets/relative-time-element/index.ts` into your own bundle.
 

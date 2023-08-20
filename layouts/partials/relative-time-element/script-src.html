@@ -1,4 +1,4 @@
-{{ $options := dict "target" "es2017" "minify" hugo.IsProduction }}
+{{ $options := merge (dict "target" "es2017" "minify" hugo.IsProduction) . }}
 {{ if site.Params.Time.EnableRelative }}
 	{{ with resources.Get "/relative-time-element/index.ts" }}
 		{{ $timeJS := . | js.Build $options }}
