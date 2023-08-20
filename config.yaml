@@ -10,11 +10,11 @@ module:
       target: "config"
 
   imports:
-    ignoreConfig: true
-    path: "github.com/github/relative-time-element"
-    mounts:
-      - source: "src"
-        target: "assets/relative-time-element"
+    - path: "github.com/github/relative-time-element"
+      ignoreConfig: true
+      mounts:
+        - source: "src"
+          target: "assets/relative-time-element"
 
 params:
   time:
