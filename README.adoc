@@ -1,7 +1,17 @@
+=	hugo-mod-time: A Hugo module for generating <time> elements
+Kiran Castellino
+0.0.1, 21st August 2023
 :toc:
 :toc-placement!:
-
-=	hugo-mod-time
+:idprefix:
+:idseparator: -
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :bookmark:
+:important-caption: :star2:
+:caution-caption: :bangbang:
+:warning-caption: :warning:
+endif::[]
 
 :repo-status: https://www.repostatus.org/
 :wip: {repo-status}=wip
@@ -92,18 +102,23 @@ Both partials take a dictionary as the 'context' (the single argument), which re
 following properties:
 
 Time::
-A https://godoc.org/time#Time[`time.Time`] struct. Page variables such as
-`.PublishDate`` and `.Lastmod` can be passed straight into this argument;
-timestamps can be converted to objects using Hugo's https://gohugo.io/functions/time/[`time` function].
+A https://godoc.org/time#Time[`time.Time`] struct. Page variables such as `.PublishDate`` and
+`.Lastmod` can be passed straight into this argument; timestamps can be converted to objects using
+Hugo's https://gohugo.io/functions/time/[`time` function]. *_Required_*
 
 Format::
-A https://gohugo.io/functions/format/#gos-layout-string[Go Layout String] as used by
-the `time.Format` function to render a datetime.
+A https://gohugo.io/functions/format/#gos-layout-string[Go Layout String] as used by the
+`time.Format` function to render a datetime. *_Required_*
+
+EnableRelative::
+A boolean value determining whether a `<relative-time>` element should be used. This property
+overrides the <<client-side-time-conversion, `enableRelative` setting in the site configuration>>.
+*_Optional_*
 
 Options::
-A dictionary containing key-value pairs corresponding to the
-{relative-time-attrs}[attributes for the
-`<relative-time>` element]
+A dictionary containing key-value pairs corresponding to the {relative-time-attrs}[attributes for
+the `<relative-time>` element]. These options will be merged with any <<default-options, options set
+in the site configuration>>. *_Optional_*
 
 The `time` partial above will produce the following HTML:
 
@@ -172,9 +187,22 @@ If you do not wish to set any options, you can use the `dict` function with no o
 empty dictionary.
 
 [NOTE]
-Previous versions of this module used a partial at "time/script-import.html" to build and include
+Previous versions of this module used the `time/script-import.html` partial to build and include
 the JavaScript files, which took no options. This partial has been preserved for backwards
-compatibility.
+compatibility. However, the behaviour of this partial may still change in future versions.
+
+****
+
+The differences between the two partials are:
+
+- `time/script-import.html`
+  * Does not support passing options to `js.Build` (may change in future version)
+  * Only builds and includes the scripts if `enableRelative` _in the site configuration_ is set to `true`
+- `relative-time-element/script-src`
+  * Supports passing options to `js.Build`
+  * Will always build and include the scripts, whether or not `enableRelative` is set to true
+
+****
 
 Alternatively, you can import `/assets/relative-time-element/index.ts` into your own bundle.
 
@@ -196,8 +224,9 @@ element so it will match as close as possible to the date format produced by Hug
 
 ===	Additional options
 
-You may pass in options to change the appearance of the `relative-time` element, by passing in an
-options dictionary. You can configure the element using {relative-time-attrs}[any available attribute].
+You can add additional options to configure the `<relative-time>` element. You can use
+{relative-time-attrs}[any configuration attribute] available on the element. The element can be
+configured by passing a dictionary with atrribute names and values under the `Options` key.
 
 [source,go-html-template]
 ----
@@ -206,6 +235,7 @@ options dictionary. You can configure the element using {relative-time-attrs}[an
 {{ partial "time" (dict "Time" $time "Format" "2 January 2006 3:04 PM MST" "Options" $timeOptions) }}
 ----
 
+[#default-options]
 A default configuration can be provided by setting `params.time.defaultOptions` in your site config:
 
 -	config.toml:
@@ -241,11 +271,11 @@ link:LICENSE.txt[]. It is legally identical to the 3-clause "Modified" BSD Licen
 extra clause (Clause 3) compared to the MIT license.
 
 By default, using this module will download the `relative-time-element` package to your computer,
-which is created by GitHub, Inc. and licensed under the {relative-time-element}/blob/main/LICENSE[MIT license].
-If you don't want to download this package,
-xref:installation[set `ignoreImports` under your module import to `true`]. Additionally, the
+which is created by GitHub, Inc. and licensed under the
+{relative-time-element}/blob/main/LICENSE[MIT license]. If you don't want to download this package,
+<<installation, set `ignoreImports` under your module import to `true`>>. Additionally, the
 `<relative-time>` element will not be used on generated pages, and the JavaScript package will not
-be distributed to clients, unless the xref:client-side-time-conversion[`enableRelative` option is set to true].
+be distributed to clients, unless the <<client-side-time-conversion, `enableRelative` option is set to true>>.
 
 Contributions to this module are welcome! To contribute, please feel free to create an issue or a
 pull request in this repository.

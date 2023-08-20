@@ -1,1 +1,5 @@
-{{ partialCached "relative-time-element/script-src" (dict "target" "es2017" "minify" hugo.IsProduction) }}
+{{ if site.Params.Time.EnableRelative }}
+	{{ partialCached "relative-time-element/script-src" (dict "target" "es2017" "minify" hugo.IsProduction) }}
+{{ else }}
+	{{ "<!-- Relative time disabled -->" | safeHTML }}
+{{ end }}

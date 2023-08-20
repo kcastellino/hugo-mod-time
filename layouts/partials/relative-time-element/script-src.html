@@ -1,17 +1,14 @@
-{{ $options := . }}
-{{ if site.Params.Time.EnableRelative }}
-	{{ with resources.Get "/relative-time-element/index.ts" }}
-		{{ $timeJS := . | js.Build $options }}
-		{{ if hugo.IsProduction }}
-			{{ with ($timeJS | fingerprint) }}
-				<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
-			{{ end }}
-		{{ else }}
-			<script type="module" src="{{ $timeJS.RelPermalink }}"></script>
-		{{ end }}
-	{{ else }}
-		{{ errorf "Relative time has been enabled, but the required script file is not available. This is most likely because 'ignoreImports' has been set in the module imports, or because Hugo was unable to download the relative-time-element package" }}
-	{{ end }}
-{{ else }}
-	<!-- Relative time disabled -->
-{{ end }}
+{{- $options := . -}}
+
+{{- with resources.Get "/relative-time-element/index.ts" -}}
+	{{- $timeJS := . | js.Build $options -}}
+	{{- if hugo.IsProduction -}}
+		{{- with ($timeJS | fingerprint) -}}
+			<script type="module" src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+		{{- end -}}
+	{{- else -}}
+		<script type="module" src="{{ $timeJS.RelPermalink }}"></script>
+	{{- end -}}
+{{- else -}}
+	{{- errorf "Cannot get 'relative-time-element' script file. This is most likely because 'ignoreImports' has been set in the module imports, or because Hugo was unable to download the 'relative-time-element' package" -}}
+{{- end -}}
