@@ -1,6 +1,6 @@
 =	hugo-mod-time: A Hugo module for generating <time> elements
 Kiran Castellino
-0.0.1, 21st August 2023
+0.0.1, 22nd August 2023
 :toc: preamble
 :idprefix:
 :idseparator: -
