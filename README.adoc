@@ -263,9 +263,8 @@ params:
 
 ==	Licensing and contributions
 
-This module is licensed under the University of Illinois/NCSA license, which can be read in
-link:LICENSE.txt[]. It is legally identical to the 3-clause "Modified" BSD License, and contains an
-extra clause (Clause 3) compared to the MIT license.
+This module is licensed under the BSD 2-Clause "Simplified" License, which can be read in
+link:LICENSE.txt[]. It is more-or-less identical to the MIT license.
 
 By default, using this module will download the `relative-time-element` package to your computer,
 which is created by GitHub, Inc. and licensed under the
