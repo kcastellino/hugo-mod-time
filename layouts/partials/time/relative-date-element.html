@@ -4,7 +4,11 @@
 {{ end -}}
 
 <relative-time
+	{{ if .UseFullTime -}}
+	datetime='{{ .Time.Format "2006-01-02T15:04:05-0700" | safeHTMLAttr }}'
+	{{- else -}}
 	datetime='{{ .Time.Format "2006-01-02" | safeHTMLAttr }}'
+	{{- end }}
 	{{- if (strings.Contains .Format ":date_full") }}
 	weekday="long" month="long" day="numeric" year="numeric"
 	{{- else if (strings.Contains .Format ":date_long") }}

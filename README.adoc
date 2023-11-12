@@ -111,6 +111,11 @@ Class::
 Id::
 String values which set the respective attributes on the generated `<time>` element. *_Optional_*
 
+UseFullTime::
+`*date.html` only*: Includes the full date & time in computer-readable timestamps, while only
+displaying the date on the web page. This may be useful for consistency purposes if a full date &
+time is displayed elsewhere. *_Optional_*
+
 EnableRelative::
 A boolean value determining whether a `<relative-time>` element should be used. This property
 overrides the <<client-side-time-conversion, `enableRelative` setting in the site configuration>>.
