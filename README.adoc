@@ -107,6 +107,10 @@ Format::
 A https://gohugo.io/functions/format/#gos-layout-string[Go Layout String] as used by the
 `time.Format` function to render a datetime. *_Required_*
 
+Class::
+Id::
+String values which set the respective attributes on the generated `<time>` element. *_Optional_*
+
 EnableRelative::
 A boolean value determining whether a `<relative-time>` element should be used. This property
 overrides the <<client-side-time-conversion, `enableRelative` setting in the site configuration>>.
