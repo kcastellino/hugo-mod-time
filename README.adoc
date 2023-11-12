@@ -270,6 +270,71 @@ params:
       threshold: "P7D"
 ----
 
+=== Multilingual support
+
+As with all Hugo configuration parameters, the default options can be configured on a per-language
+basis. This is most useful for configuring the `prefix` parameter used by the `relative-time-element`.
+
+-	config.toml:
++
+[source,toml]
+----
+[languages.de.params.time.defaultOptions]
+prefix = "am"
+
+[languages.fr.params.time.defaultOptions]
+prefix = "le"
+
+[languages.es.params.time.defaultOptions]
+prefix = "el"
+----
+
+-	config.yaml:
++
+[source,yaml]
+----
+languages:
+  de:
+    params:
+      time:
+        defaultOptions:
+          prefix: am
+  fr:
+    params:
+      time:
+        defaultOptions:
+          prefix: le
+  es:
+    params:
+      time:
+        defaultOptions:
+          prefix: el
+----
+
+:config-dir: https://gohugo.io/getting-started/configuration/#configuration-directory
+
+[TIP]
+If you find these deeply-nested configurations unwieldy, you can reorganise them using a
+{config-dir}[configuration directory], placing the language paramaters in a file named
+`config/_default/params.<LANGCODE>.toml` or `.yaml`:
+
+-	config/_default/params.de.toml:
++
+[source,toml]
+----
+[time.defaultOptions]
+prefix = "am"
+----
+
+-	config/_default/params.de.yaml:
++
+[source,yaml]
+----
+time:
+  defaultOptions:
+    prefix: am
+----
+
 ==	Licensing and contributions
 
 This module is licensed under the BSD 2-Clause "Simplified" License, which can be read in
