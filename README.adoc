@@ -1,6 +1,6 @@
 =	hugo-mod-time: A Hugo module for generating <time> elements
 Kiran Castellino
-0.0.1, 22nd August 2023
+0.0.2, 13th November 2023
 :toc: preamble
 :idprefix:
 :idseparator: -
@@ -112,7 +112,7 @@ Id::
 String values which set the respective attributes on the generated `<time>` element. *_Optional_*
 
 UseFullTime::
-`*date.html` only*: Includes the full date & time in computer-readable timestamps, while only
+`*_date.html` only_*: Includes the full date & time in computer-readable timestamps, while only
 displaying the date on the web page. This may be useful for consistency purposes if a full date &
 time is displayed elsewhere. *_Optional_*
 
